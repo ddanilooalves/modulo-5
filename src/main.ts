@@ -14,7 +14,9 @@ async function bootstrap() {
     .setDescription('Aplicação para gestão da plataforma de jogos')
     .setVersion('1.0.0')
     .addTag('status')
-
+    .addTag('auth')
+    .addTag('user')
+    .addBearerAuth()
     
   await app.listen(3000);
 }
