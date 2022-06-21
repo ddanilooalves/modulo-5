@@ -6,25 +6,38 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
+  userSelect: any;
   constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateUserDto) {
-    return this.prisma.user.create({ data: dto });
+  async create(dto: CreateUserDto) {
+    return await this.prisma.user.create({ data: dto });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return await this.prisma.user.findFirst({ where: {
+      id,
+  }});
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, dto: UpdateUserDto) {
+    const data: Partial<User> = { ...dto };
+    return this.prisma.user.update({
+      where: { id },
+      data,
+      select: this.userSelect,
+    })
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async delete(id: string) {
+    await this.prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+    return { message: 'Usuário deletado com sucesso' };
   }
 }
