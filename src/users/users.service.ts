@@ -58,7 +58,7 @@ export class UsersService {
         isAdmin: true,
         password: false,
         },
-    })
+    });
   }
 
   async delete(id: string) {
